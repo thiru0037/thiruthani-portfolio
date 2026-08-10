@@ -110,3 +110,4 @@ vercel --prod # promotes to production
 - Add a custom domain from the Vercel dashboard if desired (Project → Settings → Domains).
 
 No environment variables are required — all content is local, and every route renders statically at build time.
+# thiruthani-portfolio
