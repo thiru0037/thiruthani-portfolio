@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { Header } from "@/components/layout/header";
@@ -52,6 +53,7 @@ export default function RootLayout({ children, modal }: LayoutProps<"/">) {
           {modal}
           <Footer />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

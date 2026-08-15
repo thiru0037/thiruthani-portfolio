@@ -32,7 +32,7 @@ export function Hero() {
           </div>
         </div>
 
-        <Avatar name={profile.name} size={144} />
+        <Avatar name={profile.name} src="/images/headshot.jpg" size={144} />
       </Container>
     </section>
   );

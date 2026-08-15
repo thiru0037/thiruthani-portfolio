@@ -88,6 +88,90 @@
   }
 }
 
+/* Hand-rolled prose styling for MDX blog content, using the site's own
+   design tokens (rather than pulling in @tailwindcss/typography). */
+.mdx-content {
+  color: var(--color-foreground);
+  line-height: 1.75;
+}
+
+.mdx-content > * + * {
+  margin-top: 1.25em;
+}
+
+.mdx-content h2 {
+  margin-top: 2em;
+  font-size: 1.5em;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-foreground);
+}
+
+.mdx-content h3 {
+  margin-top: 1.75em;
+  font-size: 1.25em;
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.mdx-content p,
+.mdx-content li {
+  color: var(--color-muted-foreground);
+}
+
+.mdx-content a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.mdx-content ul,
+.mdx-content ol {
+  padding-left: 1.5em;
+}
+
+.mdx-content ul {
+  list-style: disc;
+}
+
+.mdx-content ol {
+  list-style: decimal;
+}
+
+.mdx-content blockquote {
+  border-left: 2px solid var(--color-accent);
+  padding-left: 1em;
+  font-style: italic;
+  color: var(--color-muted-foreground);
+}
+
+.mdx-content code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0.15em 0.4em;
+}
+
+.mdx-content pre {
+  overflow-x: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1em;
+}
+
+.mdx-content pre code {
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+.mdx-content hr {
+  border-color: var(--color-border);
+}
+
 /* Reduced-motion users get an instant, non-animated experience. */
 @media (prefers-reduced-motion: reduce) {
   *,
