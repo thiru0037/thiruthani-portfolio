@@ -72,3 +72,10 @@ export interface SocialLink {
   label: string;
   href: string;
 }
+
+export interface IntroVideo {
+  /** YouTube video ID (the part after `v=` in the URL). Null renders nothing. */
+  youtubeId: string | null;
+  title: string;
+  description: string;
+}

@@ -8,7 +8,8 @@ A production portfolio site positioning for Senior / Staff / Technical / AI Prod
 - **Tailwind CSS v4** (CSS-first config, no `tailwind.config.ts`)
 - **next-themes** — dark/light toggle (dark is the default)
 - **lucide-react** — icon set
-- Zero other runtime dependencies
+- **@vercel/analytics** — visitor analytics (see [Analytics](#analytics) below)
+- **gray-matter** + **next-mdx-remote** — parses and renders the `/blog` posts
 
 ## Local development
 
@@ -43,6 +44,8 @@ npx tsc --noEmit   # type-check only
 | `content/certifications.ts` | Certifications + achievements |
 | `content/education.ts` | Education entry |
 | `content/site-config.ts` | Nav links, social links, site metadata defaults |
+| `content/video.ts` | Intro video (YouTube ID) |
+| `content/blog/*.mdx` | Blog posts (see [Writing a blog post](#writing-a-blog-post)) |
 
 Shapes for all of the above are defined in `types/content.ts`.
 
@@ -67,11 +70,57 @@ The hero currently shows an initials monogram (no photo file exists yet). To use
 
 Replace `public/resume.pdf` with your current resume — the hero and footer download links point there already.
 
+### Adding an intro video
+
+The video section (shown right under the hero) is hidden by default. To turn it on:
+
+1. Record your video and upload it to YouTube as **unlisted** (not "public" — keeps it off search and your channel page, but anyone with your portfolio link can watch it; not "private", which would block viewers entirely).
+2. Copy the video ID — the part after `v=` in the URL (e.g. `https://www.youtube.com/watch?v=dQw4w9WgXcQ` → `dQw4w9WgXcQ`).
+3. Set it in `content/video.ts`:
+   ```ts
+   export const introVideo: IntroVideo = {
+     youtubeId: "dQw4w9WgXcQ",
+     title: "A short introduction",
+     description: "...",
+   };
+   ```
+
+The section renders nothing at all while `youtubeId` is `null`. Once set, it shows a click-to-play thumbnail — no YouTube script or iframe loads until a visitor actually clicks play, and it uses `youtube-nocookie.com` (YouTube's privacy-enhanced embed domain).
+
+### Writing a blog post
+
+1. Create a new file at `content/blog/your-post-slug.mdx`.
+2. Add frontmatter at the top:
+   ```
+   ---
+   title: "Your post title"
+   date: "2026-08-14"
+   excerpt: "One sentence for the index page and social previews."
+   tags: ["Optional", "Tags"]
+   ---
+   ```
+3. Write the body below the frontmatter in Markdown (headings, links, lists, blockquotes, code blocks, etc. are all supported).
+
+It appears automatically on `/blog`, gets its own page at `/blog/your-post-slug`, and is included in `sitemap.xml` — no other code changes needed. Delete or replace `content/blog/hello-world.mdx` (the placeholder post) once you've written a real one.
+
+## Analytics
+
+[Vercel Web Analytics](https://vercel.com/docs/analytics) is wired in (`<Analytics />` in `app/layout.tsx`) but only activates once you turn it on for the project:
+
+1. Deploy the project to Vercel (see [Deploying](#deploying) below).
+2. In the Vercel dashboard, open the project → **Analytics** tab → **Enable**.
+3. Visit counts (including unique visitors per day) will start appearing after your next deploy.
+
+**Retention caveat:** on Vercel's free Hobby plan, Web Analytics data is retained for roughly the last month — it will *not* give you true "unique visitors since the site went live" once you've been live longer than that. If you want that number to stay accurate indefinitely without upgrading to Vercel Pro, the tradeoff was flagged during development; ask if you'd like the self-hosted alternative (a small Upstash Redis-backed counter with no retention limit) built instead.
+
+No cookies are used for this — Vercel Web Analytics counts visits using a page-load signal that resets per session rather than a persistent identifier, so no cookie-consent banner is required.
+
 ## Architecture notes
 
 - **Case studies as modal + real page**: clicking a case-study tile opens it as a centered overlay (Next.js parallel + intercepting routes: `app/@modal/(.)case-studies/[slug]`) with its own shareable URL. Visiting that URL directly, or refreshing, renders the full standalone page (`app/case-studies/[slug]/page.tsx`) instead — both render the same `CaseStudyContent` component, so there's one source of truth for the markup.
 - **Theme**: `next-themes` toggles a `.dark` class on `<html>`; Tailwind v4's `dark:` variant is wired to that class (not the OS media query) via `@custom-variant dark` in `app/globals.css`.
 - **Content/presentation split**: every section component imports its copy from `content/*.ts` rather than hardcoding text, per the brief.
+- **Blog**: posts are `.mdx` files under `content/blog/`, read at build time (`lib/blog.ts`) and rendered via `next-mdx-remote/rsc` — no database, no CMS. `/blog/[slug]` is statically generated per post via `generateStaticParams`.
 
 ## Deploying
 

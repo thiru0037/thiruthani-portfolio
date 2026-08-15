@@ -8,13 +8,17 @@ export const siteConfig = {
   url: "https://thiruthani.dev",
 };
 
+// Prefixed with "/" (not bare "#...") so these still resolve correctly when
+// clicked from a different route (e.g. /blog or /case-studies/[slug]) rather
+// than only working while already on the home page.
 export const navLinks: NavLink[] = [
-  { label: "About", href: "#about" },
-  { label: "Case Studies", href: "#case-studies" },
-  { label: "Experience", href: "#experience" },
-  { label: "AI & Platform", href: "#ai-platform" },
-  { label: "Skills", href: "#skills" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Case Studies", href: "/#case-studies" },
+  { label: "Experience", href: "/#experience" },
+  { label: "AI & Platform", href: "/#ai-platform" },
+  { label: "Skills", href: "/#skills" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export const socialLinks: SocialLink[] = [

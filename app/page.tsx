@@ -1,4 +1,5 @@
 import { Hero } from "@/components/sections/hero";
+import { IntroVideo } from "@/components/sections/intro-video";
 import { ImpactStats } from "@/components/sections/impact-stats";
 import { About } from "@/components/sections/about";
 import { CaseStudyGrid } from "@/components/sections/case-study-grid";
@@ -12,6 +13,7 @@ export default function Home() {
   return (
     <main id="main-content">
       <Hero />
+      <IntroVideo />
       <ImpactStats />
       <About />
       <CaseStudyGrid />
